@@ -28,6 +28,8 @@ jobs:
               repo: context.repo.repo
             })
             return issue.data
+            echo "::set-output name=issue_title::${{ steps.get_issue_details.outputs.title }}"
+            echo "${{toJSON(issue.data)}}"
 #      - name: Issues details information
 #        uses: actions/github-script@v6
 #        with:
