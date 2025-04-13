@@ -27,9 +27,9 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo
             })
+            echo "${{steps.get_issue_details.issue.data}}"
             return issue.data
-#            echo "::set-output name=issue_title::${{ steps.get_issue_details.outputs.title }}"
-            echo "${{issue.data}}"
+#            echo "::set-output name=issue_title::${{ steps.get_issue_details.outputs.title }}"           
 #      - name: Issues details information
 #        uses: actions/github-script@v6
 #        with:
