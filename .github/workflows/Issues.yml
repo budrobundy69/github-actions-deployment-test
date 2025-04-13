@@ -1,13 +1,12 @@
 name: Issues details information
-on:
-  issues:
-    types: [ opened, edited, reopened, closed ]
-  issue_comment:
-    types: [ created ]
-  pull_request:
-    types: [ opened, edited, reopened, closed ]
-  workflow_dispatch:
-    types: [ created ]
+on: issues
+#    types: [ opened, edited, reopened, closed ]
+#  issue_comment:
+#    types: [ created ]
+#  pull_request:
+#    types: [ opened, edited, reopened, closed ]
+#  workflow_dispatch:
+#    types: [ created ]
 jobs:
   issues:
     runs-on: ubuntu-latest
@@ -15,13 +14,27 @@ jobs:
       issues: write # Grant write permission for issues
       contents: read # Grant read permission for contents
     steps:
-      - name: Issues details information
+      - name: Output event details
+        run: |
+          echo "Event: ${{ toJson(github.event) }}"
+      - name: Get issue details
+        id: get_issue_details
         uses: actions/github-script@v6
         with:
           script: |
-            const issue = await github.rest.issues.createComment({
+            const issue = await github.rest.issues.get({
               issue_number: context.issue.number,
               owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Danke für deinen Beitrag!'
+              repo: context.repo.repo
             })
+            return issue.data
+#      - name: Issues details information
+#        uses: actions/github-script@v6
+#        with:
+#          script: |
+#            const issue = await github.rest.issues.createComment({
+#              issue_number: context.issue.number,
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              body: 'Danke für deinen Beitrag!'
+#            })
