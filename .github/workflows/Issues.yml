@@ -27,9 +27,11 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo
             })
-            return issue.data
-#            echo "::set-output name=issue_title::${{ steps.get_issue_details.outputs.title }}"
-            echo "${{issue.data}}"
+            // Schritte zur Ausgabe ganzer Struktur
+            core.setOutput("issue_data", JSON.stringify(issue.data))
+      - name: Ausgabe der Issue Daten
+        run: |
+          echo "Issue Data: ${{ steps.get_issue_details.outputs.issue_data }}"
 #      - name: Issues details information
 #        uses: actions/github-script@v6
 #        with:
