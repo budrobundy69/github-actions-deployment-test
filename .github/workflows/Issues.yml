@@ -29,7 +29,7 @@ jobs:
             })
             return issue.data
 #            echo "::set-output name=issue_title::${{ steps.get_issue_details.outputs.title }}"
-            echo "${issue.data}"
+            echo "${{issue.data}}"
 #      - name: Issues details information
 #        uses: actions/github-script@v6
 #        with:
