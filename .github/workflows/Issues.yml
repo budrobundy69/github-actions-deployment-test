@@ -11,6 +11,9 @@ on:
 jobs:
   issues:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write # Grant write permission for issues
+      contents: read # Grant read permission for contents
     steps:
       - name: Issues details information
         uses: actions/github-script@v6
