@@ -16,28 +16,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const payload = context.payload;
-            const mapUserContent = ({ title, body, state, number, user }) => ({
-                title,
-                body,
-                state,
-                number,
-                user: user.login,
-            });
-
-            const mapComment = ({ body, user }) => ({
-                body,
-                user: user.login,
-            });
-
-            const mapWorkflowInputs = ({ inputs }) => ({ inputs });
-
-            const issueDetails = {
-                issue: mapUserContent(payload.issue),
-                issueComment: mapComment(payload.comment),
-                pullRequest: mapUserContent(payload.pull_request),
-                workflowDispatch: mapWorkflowInputs(payload.workflow_dispatch),
-            };
-
-            console.log(issueDetails);
-            return issueDetails;
+            const issue = await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Danke für deinen Beitrag!'
+            })
