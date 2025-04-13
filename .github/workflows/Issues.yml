@@ -1,0 +1,43 @@
+name: Issues details information
+on:
+  issues:
+    types: [ opened, edited, reopened, closed ]
+  issue_comment:
+    types: [ created ]
+  pull_request:
+    types: [ opened, edited, reopened, closed ]
+  workflow_dispatch:
+    types: [ created ]
+jobs:
+  issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Issues details information
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const payload = context.payload;
+            const mapUserContent = ({ title, body, state, number, user }) => ({
+                title,
+                body,
+                state,
+                number,
+                user: user.login,
+            });
+
+            const mapComment = ({ body, user }) => ({
+                body,
+                user: user.login,
+            });
+
+            const mapWorkflowInputs = ({ inputs }) => ({ inputs });
+
+            const issueDetails = {
+                issue: mapUserContent(payload.issue),
+                issueComment: mapComment(payload.comment),
+                pullRequest: mapUserContent(payload.pull_request),
+                workflowDispatch: mapWorkflowInputs(payload.workflow_dispatch),
+            };
+
+            console.log(issueDetails);
+            return issueDetails;
